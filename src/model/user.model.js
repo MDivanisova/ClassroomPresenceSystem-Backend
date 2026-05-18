@@ -1,1 +1,46 @@
 import mongoose from "mongoose";
+import { pwHash, pwCompare } from "../utils/pw.hash.js";
+
+const userSchema = mongoose.Schema({
+    index : {type: String, required: true},
+    name : {type: String, required: false},
+    surname : {type: String, required: false},
+    email : {type: String, required: true},
+    username : {type: String, required: true},
+    password : {type: String, required: false},
+    role : {type: String, required: true, enum: ["Редовен професор","Вонреден професор","Редовен студент","Вонреден студент"]}
+},{
+    timestamps : true,
+    toJSON : {
+        transform : function(doc, ret){
+            delete ret.__v;
+            delete ret.password;
+        } 
+    }
+});
+
+
+userSchema.pre("save", async function(){
+    if(this.isModified("password")){
+        this.password = await pwHash(this.password);
+    }
+    this.updatedAt = new Date();
+});
+
+
+userSchema.methods.pwCmp = async function (pw){
+    return await pwCompare(pw, this.password);
+};
+
+userSchema.methods.pwOmit = function(){
+    const obj =  this.toObject();
+    delete obj.password;
+
+    return obj;
+};
+
+
+const userModel = mongoose.model("user", userSchema);
+
+
+export default userModel;

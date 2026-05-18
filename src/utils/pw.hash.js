@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
 const pwHash = async (pw) => {
-    const hashed= await bcrypt.hash(pw, 10);
+    const hashed = await bcrypt.hash(pw, 10);
 
     return hashed;
 } 
