@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import config from "./config.js";
 
-const connect_db = async() =>{
+const connectDB = async() =>{
     try{
         await mongoose.connect(config.MONGO_URI);
         console.log("Connected to MongoDB");
@@ -13,5 +13,5 @@ const connect_db = async() =>{
 }
 
 export {
-    connect_db
+    connectDB
 };

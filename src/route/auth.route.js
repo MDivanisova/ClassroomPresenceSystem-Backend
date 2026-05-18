@@ -2,10 +2,10 @@ import express from 'express';
 import {login} from '../controller/auth.controller.js'
 
 
-const AuthRout = express.Router();
+const authRout = express.Router();
 
 
-AuthRout.get('/login', login);
+authRout.get('/login', login);
 
 
-export default AuthRout;
+export default authRout;

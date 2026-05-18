@@ -1,8 +1,8 @@
 import express from 'express';
-import AuthRout from './route/auth.route.js';
-import AttendanceRout from './route/attendance.route.js';
+import authRout from './route/auth.route.js';
+import attendanceRout from './route/attendance.route.js';
 import config from './config/config.js';
-import { connect_db } from './config/database.js';
+import { connectDB } from './config/database.js';
 
 
 const app = express();
@@ -15,12 +15,12 @@ app.get(`${config.BASE_PATH}/health_check` , (req, res)  => {
 });
 
 
-app.use(`${config.BASE_PATH}`, AuthRout);
-app.use(`${config.BASE_PATH}`, AttendanceRout);
+app.use(`${config.BASE_PATH}`, authRout);
+app.use(`${config.BASE_PATH}`, attendanceRout);
 
 
 
-connect_db();
+connectDB();
 
 if(config.NODE_ENV === "DEVELOPMENT"){
     

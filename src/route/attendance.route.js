@@ -2,10 +2,10 @@ import express from 'express';
 import { getAttendance } from '../controller/attendance.controller.js';
 
 
-const AttendanceRout = express.Router();
+const attendanceRout = express.Router();
 
 
-AttendanceRout.get('/attendance', getAttendance);
+attendanceRout.get('/attendance', getAttendance);
 
 
-export default AttendanceRout;
+export default attendanceRout;
