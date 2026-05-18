@@ -5,7 +5,7 @@ import {login} from '../controller/auth.controller.js'
 const authRout = express.Router();
 
 
-authRout.get('/login', login);
+authRout.post('/login', await login);
 
 
 export default authRout;

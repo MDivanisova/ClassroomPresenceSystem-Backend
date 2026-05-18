@@ -1,0 +1,39 @@
+import userModel from "../model/user.model.js";
+import { generateToken } from "../utils/jwt.tokens.js";
+
+const loginService = async (username, password) => {
+    const user = await userModel.findOne({username: username});
+    if(!user){
+        return {
+                "msg":{"msg":"Username dose not exist."},
+                "statusCode": 401
+        }
+    }
+    
+    const result = await user.pwCmp(password);
+
+
+    if(result){
+        const jwtUser = {
+          "username": user.username,
+          "index": user.index,
+          "role": user.role,
+          "email": user.email,
+        }
+        const token = generateToken(jwtUser);
+        return {
+            "msg":{"token":token},
+            "statusCode": 200
+        } 
+    }
+    else{
+        return {
+            "msg":{"msg":"Failed login wrong password try again."},
+            "statusCode": 401
+        }
+    }  
+}
+
+export {
+    loginService
+}
