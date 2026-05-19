@@ -3,12 +3,17 @@ import { verifyToken } from '../utils/jwt.tokens.js';
 const middle = (req, res, next)=>{
     const token  = req.headers.authorization;
     const result = verifyToken(token);
-    if(result.valid){
+        
+    if(result && result.valid){
+        req.user = result.user;
         next();
     }
-    return res.status(301).json({
-        "msg":"Access denied unaothorized, please login."
-    });
+    else{
+        return res.status(301).json({
+            "msg":"Access denied unaothorized, please login."
+        });
+    }
+    
 }
 
 export default middle;

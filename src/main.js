@@ -5,11 +5,15 @@ import config from './config/config.js';
 import { connectDB } from './config/database.js';
 import middle from './middleware/auth.middleware.js';
 import { errorHandler } from './middleware/zod.handler.js';
+import classroomRoute from './route/classroom.route.js';
 
 const app = express();
 
 
 app.use(express.json());
+
+
+
 
 app.get(`${config.BASE_PATH}/health_check` , (req, res)  => {
     return res.status(200).json({
@@ -17,13 +21,14 @@ app.get(`${config.BASE_PATH}/health_check` , (req, res)  => {
     });
 });
 
-app.get('/ping', (req, res)=>{
-    return res.send("PONG");
-})
 
 
-app.use(`${config.BASE_PATH}`, authRout);
-app.use(`${config.BASE_PATH}`, middle, attendanceRout);
+
+app.use(`${config.BASE_PATH}/au`, authRout);
+
+app.use(`${config.BASE_PATH}/at`, middle, attendanceRout);
+
+app.use(`${config.BASE_PATH}/c`, middle, classroomRoute);
 
 
 app.use(errorHandler);

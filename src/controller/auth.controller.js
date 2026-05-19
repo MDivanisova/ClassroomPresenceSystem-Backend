@@ -9,7 +9,7 @@ const login = async (req, res) => {
   const username =req.body.username;
   const password = req.body.password;
 
-  const valResult = loginSchema.parse({username, password});
+  //const valResult = loginSchema.parse({username, password});
   const result = await loginService(username, password);
 
 

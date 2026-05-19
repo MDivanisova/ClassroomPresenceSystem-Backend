@@ -15,11 +15,13 @@ const loginService = async (username, password) => {
 
     if(result){
         const jwtUser = {
+            "_id": user._id,
           "username": user.username,
           "index": user.index,
           "role": user.role,
           "email": user.email,
         }
+       
         const token = generateToken(jwtUser);
         return {
             "msg":{"token":token},
