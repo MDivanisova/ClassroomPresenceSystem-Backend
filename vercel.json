@@ -2,7 +2,7 @@
     "version": 2,
     "functions":{
         "src/main.js":{
-            "masDuration": 30
+            "maxDuration": 30
         }
     },
     "routes":[
