@@ -1,0 +1,17 @@
+{
+    "version": 2,
+    "functions":{
+        "src/main.js":{
+            "masDuration": 30
+        }
+    },
+    "routes":[
+        {
+            "src": "/(.*)",
+            "dest": "src/main.js"
+        }
+    ],
+    "env":{
+        "NODE_ENV": "production"
+    }
+}
