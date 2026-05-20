@@ -1,17 +1,17 @@
 {
-    "version": 2,
-    "functions":{
-        "src/main.js":{
-            "maxDuration": 30
-        }
-    },
-    "routes":[
-        {
-            "src": "/(.*)",
-            "dest": "src/main.js"
-        }
-    ],
-    "env":{
-        "NODE_ENV": "production"
+  "version": 2,
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
     }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/index.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }
