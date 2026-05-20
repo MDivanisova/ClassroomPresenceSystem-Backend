@@ -5,7 +5,8 @@ import config from './config/config.js';
 import { connectDB } from './config/database.js';
 import middle from './middleware/auth.middleware.js';
 import { errorHandler } from './middleware/zod.handler.js';
-import classroomRoute from './route/classroom.route.js';
+import classroomRout from './route/classroom.route.js';
+import attendeeRout from './route/attendees.route.js';
 
 const app = express();
 
@@ -28,7 +29,9 @@ app.use(`${config.BASE_PATH}/au`, authRout);
 
 app.use(`${config.BASE_PATH}/at`, middle, attendanceRout);
 
-app.use(`${config.BASE_PATH}/c`, middle, classroomRoute);
+app.use(`${config.BASE_PATH}/c`, middle, classroomRout);
+
+app.use(`${config.BASE_PATH}/a`, middle, attendeeRout);
 
 
 app.use(errorHandler);

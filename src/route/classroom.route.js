@@ -2,11 +2,11 @@ import express from 'express'
 import {createClassroom, getAllCalssrooms} from '../controller/classroom.controller.js'
 
 
-const classroomRoute = express.Router();
+const classroomRout = express.Router();
 
 
-classroomRoute.post('/classroom', createClassroom);
-classroomRoute.get('/classroom', getAllCalssrooms);
+classroomRout.post('/classroom', createClassroom);
+classroomRout.get('/classroom', getAllCalssrooms);
 
 
-export default classroomRoute;
+export default classroomRout;

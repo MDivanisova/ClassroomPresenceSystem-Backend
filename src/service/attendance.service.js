@@ -32,7 +32,7 @@ const getAttendanceService = async (filter, pagination)=>{
 
 const insertAttendanceService = async (classroomID, title, user)=>{
 
-    const startOn = new Date();
+    const start = new Date();
     const organizer = user._id;
     const classroom = classroomID;
 
