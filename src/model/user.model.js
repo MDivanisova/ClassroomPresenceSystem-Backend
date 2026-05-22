@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { pwHash, pwCompare } from "../utils/pw.hash.js";
+import { ROLE } from "../utils/enums.js";
 
 const userSchema = await mongoose.Schema({
     index: {type: String, required: true},
@@ -8,7 +9,7 @@ const userSchema = await mongoose.Schema({
     email: {type: String, required: true},
     username: {type: String, required: true},
     password: {type: String, required: false},
-    role: {type: String, required: true, enum: ["Редовен професор","Вонреден професор","Редовен студент","Вонреден студент"]}
+    role: {type: String, required: true, enum: [ROLE.regularProfesor, ROLE.notRegularProfesor, ROLE.regularStudent, ROLE.notRegularStuden]}
 },{
     timestamps: true,
     toJSON: {

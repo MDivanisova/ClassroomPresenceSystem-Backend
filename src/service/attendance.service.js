@@ -40,7 +40,7 @@ const insertAttendanceService = async (classroomID, title, user)=>{
     const attendance = new attendanceModel({
         classroom: classroom,
         organizer: organizer,
-        startOn: startOn,
+        startOn: start,
         title:title
     });
 
@@ -52,7 +52,17 @@ const insertAttendanceService = async (classroomID, title, user)=>{
 
 }
 
+const endAttendanceService = async (attendanceID)=>{
+
+    const endOn = new Date(); 
+    
+    const res = await attendanceModel.updateOne({_id:attendanceID},{$set: {endOn: endOn}});
+
+    return res.modifiedCount === 1 ? {"msg":"Succesfully ended attandance.", "statusCode": 200}: {"msg":"Attandance not found.", "statusCode": 404}
+};
+
 export {
     getAttendanceService,
-    insertAttendanceService
+    insertAttendanceService,
+    endAttendanceService
 }

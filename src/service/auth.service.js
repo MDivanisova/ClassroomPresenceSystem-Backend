@@ -24,7 +24,10 @@ const loginService = async (username, password) => {
        
         const token = generateToken(jwtUser);
         return {
-            "msg":{"token":token},
+            "msg":{
+                "token":token,
+                "userId": jwtUser._id
+            },
             "statusCode": 200
         } 
     }
