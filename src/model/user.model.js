@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { pwHash, pwCompare } from "../utils/pw.hash.js";
 import { ROLE } from "../utils/enums.js";
+import balkanTime from "../utils/time.helper.js";
 
 const userSchema = await mongoose.Schema({
     index: {type: String, required: true},
@@ -25,7 +26,7 @@ userSchema.pre("save", async function(){
     if(this.isModified("password")){
         this.password = await pwHash(this.password);
     }
-    this.updatedAt = new Date();
+    this.updatedAt = balkanTime();
 });
 
 

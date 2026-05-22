@@ -1,5 +1,5 @@
 import attendanceModel from '../model/attendance.model.js';
-import {getAttendanceService, insertAttendanceService} from '../service/attendance.service.js';
+import {getAttendanceService, insertAttendanceService, endAttendanceService} from '../service/attendance.service.js';
 import {attendanceIdSchema, attendanceSchema} from '../utils/attendance.validation.js'
 import { roleGuard } from '../utils/role.guard.js';
 
@@ -53,12 +53,13 @@ const insertAttendance = async (req, res)=>{
 const endAttendance = async (req, res)=>{
 
     const attendanceID = req.body.attendanceID; 
+
     if(!(roleGuard(req.user.role).hasPrem)) return res.status(403).json({"msg": "You do not have premissions you are not a teacher."})
 
-    const valres = attendanceIdSchema({attendanceID});
-    console.log("IN CONTROLLER");
+    const valres = attendanceIdSchema.parse({attendanceID});
+
     const result = await endAttendanceService(attendanceID); 
-    console.log(result);
+
     return res.status(result.statusCode).json({
         "msg": result.msg
     })

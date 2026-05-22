@@ -1,4 +1,5 @@
 import attendanceModel from "../model/attendance.model.js";
+import balkanTime from "../utils/time.helper.js";
 
 const getAttendanceService = async (filter, pagination)=>{
     let query ={
@@ -32,7 +33,7 @@ const getAttendanceService = async (filter, pagination)=>{
 
 const insertAttendanceService = async (classroomID, title, user)=>{
 
-    const start = new Date();
+    const start = balkanTime();
     const organizer = user._id;
     const classroom = classroomID;
 
@@ -54,10 +55,10 @@ const insertAttendanceService = async (classroomID, title, user)=>{
 
 const endAttendanceService = async (attendanceID)=>{
 
-    const endOn = new Date(); 
-    console.log("IN SERVICE");
+    const endOn = balkanTime(); 
+
     const res = await attendanceModel.updateOne({_id:attendanceID},{$set: {endOn: endOn}});
-    console.log("NOPE");
+
     return res.modifiedCount === 1 ? {"msg":"Succesfully ended attandance.", "statusCode": 200}: {"msg":"Attandance not found.", "statusCode": 404}
 };
 
