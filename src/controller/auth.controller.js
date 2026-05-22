@@ -1,6 +1,6 @@
 import userModel from '../model/user.model.js';
 import { loginService } from '../service/auth.service.js';
-import { ROLE } from '../utils/enums.js';
+import { roleGuard } from '../utils/role.guard.js';
 import { generateToken, verifyToken } from '../utils/jwt.tokens.js';
 import { loginSchema } from '../utils/user.validation.js';
 

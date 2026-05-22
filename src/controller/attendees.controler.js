@@ -1,5 +1,6 @@
 import {attendeesSchema} from '../utils/attendees.validation.js'
 import { postAttendeesService } from '../service/attendees.service.js';
+import { roleGuard } from '../utils/role.guard.js';
 
 const postAttendees = async (req, res) =>{
 

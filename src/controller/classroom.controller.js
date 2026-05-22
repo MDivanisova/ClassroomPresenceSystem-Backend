@@ -1,7 +1,7 @@
 import classroomModel from '../model/classroom.model.js'
 import { creatClassroomService, getAllCalssroomsService } from '../service/classroom.service.js';
 import { classroomSchema } from '../utils/classroom.validation.js';
-
+import { roleGuard } from '../utils/role.guard.js';
 
 const createClassroom = async(req, res)=>{
     const roomNumber = req.body.roomNumber;
