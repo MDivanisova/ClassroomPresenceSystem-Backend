@@ -56,9 +56,9 @@ const endAttendance = async (req, res)=>{
     if(!(roleGuard(req.user.role).hasPrem)) return res.status(403).json({"msg": "You do not have premissions you are not a teacher."})
 
     const valres = attendanceIdSchema({attendanceID});
-        
+    console.log("IN CONTROLLER");
     const result = await endAttendanceService(attendanceID); 
-
+    console.log(result);
     return res.status(result.statusCode).json({
         "msg": result.msg
     })
