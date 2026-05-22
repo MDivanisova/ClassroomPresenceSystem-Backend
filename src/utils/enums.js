@@ -1,4 +1,5 @@
 const ROLE = { 
+    admin: "Админ",
     regularStudent: "Редовен студент",
     notRegularStuden: "Вонреден студент",
     regularProfesor: "Редовен професор",

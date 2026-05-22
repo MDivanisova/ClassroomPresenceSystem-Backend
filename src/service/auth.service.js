@@ -39,6 +39,25 @@ const loginService = async (username, password) => {
     }  
 }
 
+
+const registerService = async (body) => {
+    
+    const newUser = userModel({
+        index: body.index,
+        name: body.name,
+        surname: body.surname,
+        email: body.email,
+        username: body.username,
+        password: body.password,
+        role: body.role
+    });
+    newUser.save();
+
+    return true;
+
+
+}
 export {
-    loginService
+    loginService,
+    registerService
 }

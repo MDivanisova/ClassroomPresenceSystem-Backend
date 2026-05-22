@@ -6,11 +6,11 @@ const middle = (req, res, next)=>{
         
     if(result && result.valid){
         req.user = result.user;
-        next();
+        return next();
     }
     else{
         return res.status(301).json({
-            "msg":"Access denied unaothorized, please login."
+            "msg":"Access denied unauthorized, please login."
         });
     }
     

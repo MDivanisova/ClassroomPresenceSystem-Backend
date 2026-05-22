@@ -26,7 +26,7 @@ userSchema.pre("save", async function(){
     if(this.isModified("password")){
         this.password = await pwHash(this.password);
     }
-    this.updatedAt = balkanTime();
+    this.updatedAt = new Date();
 });
 
 

@@ -1,7 +1,6 @@
 import classroomModel from '../model/classroom.model.js'
 import { creatClassroomService, getAllCalssroomsService } from '../service/classroom.service.js';
 import { classroomSchema } from '../utils/classroom.validation.js';
-import { roleGuard } from '../utils/role.guard.js';
 
 const createClassroom = async(req, res)=>{
     const roomNumber = req.body.roomNumber;
@@ -10,7 +9,6 @@ const createClassroom = async(req, res)=>{
     const faculty = req.body.faculty;
     const type = req.body.type;
 
-    if(!(roleGuard(req.user.role).hasPrem)) return res.status(403).json({"msg": "You do not have premissions you are not a teacher."})
     
     const valClasroom = classroomSchema.parse({roomNumber, floor, campus, faculty, type});
 
@@ -26,8 +24,6 @@ const createClassroom = async(req, res)=>{
 
 const getAllCalssrooms = async (req, res) =>{
 
-    if(!(roleGuard(req.user.role).hasPrem)) return res.status(403).json({"msg": "You do not have premissions you are not a teacher."})
-    
 
     const classrooms = await getAllCalssroomsService();
     return res.status(200).json({

@@ -1,7 +1,6 @@
 import attendanceModel from '../model/attendance.model.js';
 import {getAttendanceService, insertAttendanceService, endAttendanceService} from '../service/attendance.service.js';
 import {attendanceIdSchema, attendanceSchema} from '../utils/attendance.validation.js'
-import { roleGuard } from '../utils/role.guard.js';
 
 
 const getAttendance = async (req, res) => {
@@ -15,8 +14,6 @@ const getAttendance = async (req, res) => {
             pageSize: parseInt(req.query.pageSize) || 10,
             pageNumber: parseInt(req.query.pageNumber) || 1
         };
-
-        if(!(roleGuard(req.user.role).hasPrem)) return res.status(403).json({"msg": "You do not have premissions you are not a teacher."})
 
 
         const result = await getAttendanceService(filter, pagination);
@@ -36,8 +33,6 @@ const insertAttendance = async (req, res)=>{
     const classroomID = req.body.classroomID;
     const title = req.body.title;
     
-    if(!(roleGuard(req.user.role).hasPrem)) return res.status(403).json({"msg": "You do not have premissions you are not a teacher."})
-
     const valRes = attendanceSchema.parse({classroomID, title});
 
     const attendanceId = await insertAttendanceService(classroomID, title, req.user);
@@ -53,8 +48,6 @@ const insertAttendance = async (req, res)=>{
 const endAttendance = async (req, res)=>{
 
     const attendanceID = req.body.attendanceID; 
-
-    if(!(roleGuard(req.user.role).hasPrem)) return res.status(403).json({"msg": "You do not have premissions you are not a teacher."})
 
     const valres = attendanceIdSchema.parse({attendanceID});
 

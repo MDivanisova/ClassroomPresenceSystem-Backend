@@ -33,7 +33,7 @@ const getAttendanceService = async (filter, pagination)=>{
 
 const insertAttendanceService = async (classroomID, title, user)=>{
 
-    const start = balkanTime();
+    const start = new Date();
     const organizer = user._id;
     const classroom = classroomID;
 
@@ -55,7 +55,7 @@ const insertAttendanceService = async (classroomID, title, user)=>{
 
 const endAttendanceService = async (attendanceID)=>{
 
-    const endOn = balkanTime(); 
+    const endOn = new Date(); 
 
     const res = await attendanceModel.updateOne({_id:attendanceID},{$set: {endOn: endOn}});
 
