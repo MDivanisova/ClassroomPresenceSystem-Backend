@@ -6,7 +6,7 @@ const attendanceShcema = await mongoose.Schema({
     organizer: {type: mongoose.Schema.Types.ObjectId, ref: "user", required: true},
     participants: [{type: mongoose.Schema.Types.ObjectId, ref: "atendee", required: false}],
     startOn: {type: Date, required: true},
-    endOn: {type: Date, default:undefined,required: false},
+    endOn: {type: Date, default:null,required: false},
     title: {type: String, required: true}
 },{
     timestamps: true,
