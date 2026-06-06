@@ -10,7 +10,7 @@ const userSchema = await mongoose.Schema({
     email: {type: String, required: true},
     username: {type: String, required: true},
     password: {type: String, required: false},
-    role: {type: String, required: true, enum: [ROLE.regularProfesor, ROLE.notRegularProfesor, ROLE.regularStudent, ROLE.notRegularStuden]}
+    role: {type: String, required: true, enum: [ROLE.regularProfesor, ROLE.notRegularProfesor, ROLE.regularStudent, ROLE.notRegularStuden, ROLE.admin]}
 },{
     timestamps: true,
     toJSON: {

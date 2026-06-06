@@ -6,8 +6,9 @@ const attendanceSchema = zod.object({
 })
 
 const attendanceIdSchema = zod.object({
-    attendanceID: zod.hex().min(24,"attendanceId id must be exactly 24 long").max(24)
+    attendanceID: zod.hex().min(24,"attendance id must be exactly 24 long").max(24)
 })
+
 export {
     attendanceSchema,
     attendanceIdSchema

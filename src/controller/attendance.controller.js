@@ -1,5 +1,5 @@
 import attendanceModel from '../model/attendance.model.js';
-import {getAttendanceService, insertAttendanceService, endAttendanceService} from '../service/attendance.service.js';
+import {getAttendanceService, insertAttendanceService, endAttendanceService, removeAttendanceService} from '../service/attendance.service.js';
 import {attendanceIdSchema, attendanceSchema} from '../utils/attendance.validation.js'
 
 
@@ -58,8 +58,22 @@ const endAttendance = async (req, res)=>{
     })
 };
 
+const removeAttendance = async (req, res)=>{
+
+    const attendanceID = req.body.attendanceID;
+    
+    const valres = attendanceIdSchema.parse({attendanceID});
+
+    const result = await removeAttendanceService(attendanceID);
+
+    return res.status(result.statusCode).json({
+        "msg": result.msg
+    });
+};
+
 export {
   getAttendance,
   insertAttendance,
-  endAttendance
+  endAttendance,
+  removeAttendance
 };

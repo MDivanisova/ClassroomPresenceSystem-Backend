@@ -62,8 +62,26 @@ const endAttendanceService = async (attendanceID)=>{
     return res.modifiedCount === 1 ? {"msg":"Succesfully ended attandance.", "statusCode": 200}: {"msg":"Attandance not found.", "statusCode": 404}
 };
 
+const removeAttendanceService = async (attendanceID)=>{
+
+    const attendance = await attendanceModel.findOne({ _id:attendanceID});
+    if(!attendance){
+        return {
+            "statusCode": 404,
+            "msg": "Attendance does not exist"
+        }
+    }
+    
+    const removeRes = await attendanceModel.deleteOne({ _id:attendanceID});
+    return{
+        "statusCode": 200,
+        "msg": "Attendance removed succesfully"
+    };
+};
+
 export {
     getAttendanceService,
     insertAttendanceService,
-    endAttendanceService
+    endAttendanceService,
+    removeAttendanceService
 }

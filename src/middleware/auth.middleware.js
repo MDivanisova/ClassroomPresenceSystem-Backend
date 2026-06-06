@@ -1,9 +1,11 @@
 import { verifyToken } from '../utils/jwt.tokens.js';
 
 const middle = (req, res, next)=>{
+
     const token  = req.headers.authorization;
     const result = verifyToken(token);
-        
+    
+    
     if(result && result.valid){
         req.user = result.user;
         return next();

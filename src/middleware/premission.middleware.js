@@ -13,6 +13,7 @@ const hasPriveleges = (req, res, next)=>{
     }
 };
 const isAdmin = (req, res, next)=>{
+
     if(req.user.role == ROLE.admin){
         return next();
     }

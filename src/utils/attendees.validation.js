@@ -10,6 +10,19 @@ const attendeesSchema = zod.object({
     attendees: zod.array(attendeeSchema).min(1, "At least one attendee is required")
 });
 
+const attendeesIdSchema = zod.object({
+    attendeesID: zod.hex().min(24,"attendees id must be exactly 24 long").max(24)
+})
+
+const attendeeEditSchema = zod.object({
+    attendeesID: zod.hex().min(24,"attendees id must be exactly 24 long").max(24),
+    attendee: zod.hex().min(24,"user id must be exactly 24 long").max(24),
+    attendance: zod.hex().min(24,"attendance id must be exactly 24 long").max(24),
+    enterIn: zod.string().datetime()
+});
+
 export {
-    attendeesSchema
+    attendeeEditSchema,
+    attendeesSchema,
+    attendeesIdSchema
 };

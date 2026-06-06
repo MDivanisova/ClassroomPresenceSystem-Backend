@@ -1,7 +1,7 @@
 import userModel from '../model/user.model.js';
-import { loginService, registerService } from '../service/auth.service.js';
+import { getAllUsersService, loginService, registerService, removeUserService, editUserService } from '../service/auth.service.js';
 import { generateToken, verifyToken } from '../utils/jwt.tokens.js';
-import { loginSchema, registerSchema } from '../utils/user.validation.js';
+import { loginSchema, registerSchema, userIDSchema, editUserSchema } from '../utils/user.validation.js';
 
 const login = async (req, res) => {
 
@@ -25,7 +25,46 @@ const register = async (req, res) => {
   return res.status(200).json({"msg":"User registered"})
 }
 
+const getAllUsers = async (req, res) => {
+
+    const result  = await getAllUsersService();
+    
+    return res.status(200).json({
+      "users": result
+    });
+}
+
+const removeUser = async (req, res) => {
+  const userID = req.body.userID;
+
+
+  const valRes = userIDSchema.parse({userID});
+
+  const result = await removeUserService(userID);
+
+  return res.status(result.statusCode).json(
+    {
+      "msg":result.msg
+    }
+  );
+}
+
+const updateUser = async (req, res) => {
+
+  const body = req.body;
+
+  const valRes = editUserSchema.parse(body);
+
+  const result = await editUserService(body);
+  
+  return res.status(result.statusCode).json({"msg":result.msg});
+
+}
+
 export {
   login,
-  register
+  register,
+  getAllUsers,
+  removeUser,
+  updateUser
 };

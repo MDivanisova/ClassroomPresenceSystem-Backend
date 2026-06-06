@@ -1,11 +1,12 @@
 import userModel from "../model/user.model.js";
 import { generateToken } from "../utils/jwt.tokens.js";
+import {ROLE} from "../utils/enums.js";
 
 const loginService = async (username, password) => {
     const user = await userModel.findOne({username: username});
     if(!user){
         return {
-                "msg":{"msg":"Username dose not exist."},
+                "msg":{"msg":"Wrong credentials"},
                 "statusCode": 401
         }
     }
@@ -14,6 +15,7 @@ const loginService = async (username, password) => {
 
 
     if(result){
+
         const jwtUser = {
             "_id": user._id,
           "username": user.username,
@@ -21,7 +23,7 @@ const loginService = async (username, password) => {
           "role": user.role,
           "email": user.email,
         }
-       
+
         const token = generateToken(jwtUser);
         return {
             "msg":{
@@ -57,7 +59,61 @@ const registerService = async (body) => {
 
 
 }
+
+const getAllUsersService = async () => {
+    const users = await userModel.find({});
+
+    return users;
+}
+
+const removeUserService = async(userID)=>{
+    const user = userModel.findOne({_id:userID});
+
+    if(!user){
+        return {
+            "statusCode": 404,
+            "msg":"User dose not exist"
+        }
+    }
+
+    const result = await userModel.deleteOne({_id:userID});
+
+    return {
+        "statusCode":200,
+        "msg":"User succesfully removed"
+    }
+}
+
+const editUserService =async (body)=>{
+
+    const user = await userModel.findOne({_id:body.userID});
+
+    if(!user){
+        return {
+            "statusCode": 404,
+            "msg":"User dose not exist"
+        }
+    }
+
+    user.index = body.index,
+    user.name = body.name,
+    user.surname = body.surname,
+    user.email = body.email,
+    user.username = body.username,
+    user.role = body.role
+
+    user.save();
+
+    return {
+        "statusCode":200,
+        "msg":"User succesfully edited"
+    }
+}
+
 export {
     loginService,
-    registerService
+    registerService,
+    getAllUsersService,
+    removeUserService,
+    editUserService
 }
