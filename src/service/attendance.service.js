@@ -1,6 +1,7 @@
 import attendanceModel from "../model/attendance.model.js";
 import balkanTime from "../utils/time.helper.js";
 import userModel from "../model/user.model.js";
+import attendeeModel from "../model/attendee.model.js";
 import classroomModel from "../model/classroom.model.js";
 
 const getAttendanceService = async (filter, pagination) => {
