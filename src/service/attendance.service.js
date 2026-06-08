@@ -22,8 +22,8 @@ const getAttendanceService = async (filter, pagination) => {
     }
 
     // Filter by classroom type
-    if (filter.classroomType) {
-        const classrooms = await classroomModel.find({ type: filter.classroomType }).select('_id');
+    if (filter.classroom) {
+        const classrooms = await classroomModel.find({ type: filter.classroom }).select('_id');
         query.classroom = { $in: classrooms.map(c => c._id) };
     }
 
