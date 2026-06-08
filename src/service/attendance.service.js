@@ -6,7 +6,6 @@ import classroomModel from "../model/classroom.model.js";
 const getAttendanceService = async (filter, pagination) => {
     let query = {};
 
-    // Filter by teacher name
     if (filter.teacher) {
         const teacherNameParts = filter.teacher.trim().split(' ');
         const teacherQuery = teacherNameParts.length > 1
@@ -16,22 +15,20 @@ const getAttendanceService = async (filter, pagination) => {
         if (teacher) {
             query.organizer = teacher._id;
         } else {
-            // No teacher found, return empty
+            
             return { attendances: [], pagination: { numAttendance: 0, totalPages: 0, pageNumber: pagination.pageNumber, pageSize: pagination.pageSize } };
         }
     }
 
-    // Filter by classroom type
     if (filter.classroom) {
         const classrooms = await classroomModel.find({ type: filter.classroom }).select('_id');
         query.classroom = { $in: classrooms.map(c => c._id) };
     }
 
-    // Filter by date (whole day range)
     if (filter.date) {
         const start = new Date(filter.date);
         start.setHours(0, 0, 0, 0);
-        const end = new Date(filter.date);
+        const end = new Date();
         end.setHours(23, 59, 59, 999);
         query.startOn = { $gte: start, $lte: end };
     }
@@ -52,7 +49,7 @@ const getAttendanceService = async (filter, pagination) => {
             },
         });
 
-    const numAttendance = await attendanceModel.countDocuments(query); // ← also pass query here
+    const numAttendance = await attendanceModel.countDocuments(query);
     const totalPages = Math.ceil(numAttendance / pagination.pageSize);
 
     return {
