@@ -6,7 +6,7 @@ const attendeeRout = express.Router()
 
 
 attendeeRout.post('/attendees',hasPriveleges, postAttendees);
-attendeeRout.get('/getAttendees',hasPriveleges, getAttendees);
+attendeeRout.get('/getAttendees',isAdmin, getAttendees);
 attendeeRout.delete('/deleteAttendees',isAdmin, removeAttendees);
 attendeeRout.put('/editAttendees', isAdmin,editAttendees);
 

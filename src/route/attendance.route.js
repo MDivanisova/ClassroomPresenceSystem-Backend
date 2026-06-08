@@ -5,7 +5,7 @@ import { hasPriveleges, isAdmin} from '../middleware/premission.middleware.js';
 
 const attendanceRout = express.Router();
 
-attendanceRout.get('/attendance', hasPriveleges, getAttendance);
+attendanceRout.get('/attendance', isAdmin, getAttendance);
 
 attendanceRout.post('/createAttandance', hasPriveleges, insertAttendance);
 
