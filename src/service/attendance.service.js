@@ -27,7 +27,7 @@ const getAttendanceService = async (filter, pagination)=>{
                                                 },
                                             });
 
-    const numAttendance = await attendanceModel.countDocuments({});
+    const numAttendance = await attendanceModel.find(query).countDocuments({});
 
     const totalPages = Math.ceil(numAttendance/pagination.pageSize);
     const pageSize = pagination.pageSize;
