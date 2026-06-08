@@ -39,21 +39,23 @@ const getAttendanceService = async (filter, pagination) => {
         .limit(pagination.pageSize)
         .sort({ createdAt: -1 })
         .populate('classroom', 'roomNumber type')
-        .populate('organizer', 'name surname email _id')
-        .populate({
-            path: 'participants',
-            select: "attendee enterIn",
-            populate: {
-                path: 'attendee',
-                select: 'name surname email _id index'
-            },
-        });
+        .populate('organizer', 'name surname email _id');
+    
+    const attendancesWithParticipants = await Promise.all(
+    attendances.map(async (a) => {
+        const participants = await attendeeModel.find({ attendance: a._id })
+            .populate('attendee', 'name surname email _id index');
+        const obj = a.toJSON();
+        obj.participants = participants;
+        return obj;
+    })
+);
 
     const numAttendance = await attendanceModel.countDocuments(query);
     const totalPages = Math.ceil(numAttendance / pagination.pageSize);
 
     return {
-        attendances,
+        attendances: attendancesWithParticipants,
         pagination: {
             numAttendance,
             totalPages,
