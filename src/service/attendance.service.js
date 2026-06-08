@@ -1,47 +1,68 @@
 import attendanceModel from "../model/attendance.model.js";
 import balkanTime from "../utils/time.helper.js";
 
-const getAttendanceService = async (filter, pagination)=>{
-    let query ={
+const getAttendanceService = async (filter, pagination) => {
+    let query = {};
 
+    // Filter by teacher name
+    if (filter.teacher) {
+        const teacherNameParts = filter.teacher.trim().split(' ');
+        const teacherQuery = teacherNameParts.length > 1
+            ? { name: teacherNameParts[0], surname: teacherNameParts[1] }
+            : { $or: [{ name: filter.teacher }, { surname: filter.teacher }] };
+        const teacher = await userModel.findOne(teacherQuery);
+        if (teacher) {
+            query.organizer = teacher._id;
+        } else {
+            // No teacher found, return empty
+            return { attendances: [], pagination: { numAttendance: 0, totalPages: 0, pageNumber: pagination.pageNumber, pageSize: pagination.pageSize } };
+        }
     }
-    
-    if(filter.date) query.startOn = filter.date;
-    if(filter.teacher) query.organizer = filter.teacher;
-    if(filter.classroom) query.classroom = filter.classroom;
 
-    const skip = (pagination.pageNumber-1)*pagination.pageSize;
+    // Filter by classroom type
+    if (filter.classroomType) {
+        const classrooms = await classroomModel.find({ type: filter.classroomType }).select('_id');
+        query.classroom = { $in: classrooms.map(c => c._id) };
+    }
 
+    // Filter by date (whole day range)
+    if (filter.date) {
+        const start = new Date(filter.date);
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(filter.date);
+        end.setHours(23, 59, 59, 999);
+        query.startOn = { $gte: start, $lte: end };
+    }
+
+    const skip = (pagination.pageNumber - 1) * pagination.pageSize;
     const attendances = await attendanceModel.find(query)
-                                            .skip(skip)
-                                            .limit(pagination.pageSize)
-                                            .sort({createdAt: -1})
-                                            .populate('classroom','roomNumber type')
-                                            .populate('organizer', 'name surname email _id')
-                                            .populate({
-                                                path: 'participants', 
-                                                select: "attendee enterIn",
-                                                populate: {
-                                                    path: 'attendee',
-                                                    select: 'name surname email _id index'
-                                                },
-                                            });
+        .skip(skip)
+        .limit(pagination.pageSize)
+        .sort({ createdAt: -1 })
+        .populate('classroom', 'roomNumber type')
+        .populate('organizer', 'name surname email _id')
+        .populate({
+            path: 'participants',
+            select: "attendee enterIn",
+            populate: {
+                path: 'attendee',
+                select: 'name surname email _id index'
+            },
+        });
 
-    const numAttendance = await attendanceModel.find(query).countDocuments({});
+    const numAttendance = await attendanceModel.countDocuments(query); // ← also pass query here
+    const totalPages = Math.ceil(numAttendance / pagination.pageSize);
 
-    const totalPages = Math.ceil(numAttendance/pagination.pageSize);
-    const pageSize = pagination.pageSize;
-    const pageNumber = pagination.pageNumber;
     return {
         attendances,
-        pagination:{
+        pagination: {
             numAttendance,
             totalPages,
-            pageNumber,
-            pageSize
-        } 
+            pageNumber: pagination.pageNumber,
+            pageSize: pagination.pageSize
+        }
     };
-}
+};
 
 
 const insertAttendanceService = async (classroomID, title, user)=>{
