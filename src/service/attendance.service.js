@@ -17,6 +17,7 @@ const getAttendanceService = async (filter, pagination)=>{
                                             .limit(pagination.pageSize)
                                             .sort({createdAt: -1})
                                             .populate('classroom','roomNumber type')
+                                            .populate('organizer', 'name lastname email _id')
                                             .populate({
                                                 path: 'participants', 
                                                 select: "attendee enterIn",
