@@ -12,7 +12,19 @@ const getAttendanceService = async (filter, pagination)=>{
 
     const skip = (pagination.pageNumber-1)*pagination.pageSize;
 
-    const attendances = await attendanceModel.find(query).skip(skip).limit(pagination.pageSize).sort({createdAt: -1});
+    const attendances = await attendanceModel.find(query)
+                                            .skip(skip)
+                                            .limit(pagination.pageSize)
+                                            .sort({createdAt: -1})
+                                            .populate('classroom','roomNumber type')
+                                            .populate({
+                                                path: 'participants', 
+                                                select: "attendee enterIn",
+                                                populate: {
+                                                    path: 'attendee',
+                                                    select: 'name lastname email _id index'
+                                                },
+                                            });
 
     const numAttendance = attendances.length;
 
