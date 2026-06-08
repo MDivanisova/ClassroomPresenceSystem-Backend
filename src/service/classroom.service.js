@@ -11,7 +11,7 @@ const creatClassroomService = async (roomNumber, floor, campus, faculty, type)=>
         type: type
     })
 
-    classroom.save()
+    await classroom.save()
 
     return classroom._id;
 }
@@ -56,7 +56,7 @@ const editClassroomService = async(classroomID,roomNumber,floor,campus,faculty,t
     classroom.faculty = faculty;
     classroom.type = type;
 
-    classroom.save();
+    await classroom.save();
 
     return {
         "msg":"Succesfully update",

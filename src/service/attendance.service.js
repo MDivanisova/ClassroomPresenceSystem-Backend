@@ -81,7 +81,7 @@ const insertAttendanceService = async (classroomID, title, user)=>{
         title:title
     });
 
-    attendance.save();
+    await attendance.save();
 
 
     return attendance._id;

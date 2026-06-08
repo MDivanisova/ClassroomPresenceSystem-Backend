@@ -53,7 +53,7 @@ const registerService = async (body) => {
         password: body.password,
         role: body.role
     });
-    newUser.save();
+    await newUser.save();
 
     return true;
 
@@ -102,7 +102,7 @@ const editUserService =async (body)=>{
     user.username = body.username,
     user.role = body.role
 
-    user.save();
+    await user.save();
 
     return {
         "statusCode":200,
