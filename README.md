@@ -1,6 +1,6 @@
 # Систем за присуство во училница - Backend
 
-ClassroomPresenceSystem Backend е RESTFULL API апликација која овозможува управување со евиденција на присуство на студенти. 
+ClassroomPresenceSystem е RESTFULL API backend кој овозможува управување со евиденција на присуство на студенти. 
 
 ## Автор 
 
