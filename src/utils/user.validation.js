@@ -17,7 +17,7 @@ const registerSchema = zod.object({
     username: zod.string().min(5,"Username is too short, must be longer than 5 characters").max(20,"Username is too long, must be less than 20 characters"),
     password: zod.string().min(5,"Password is too short, must be longer than 5 characters").max(30,"Password is too long, must be less than 30 characters"),
     email: zod.string().email(),
-    role: zod.enum([ROLE.notRegularProfesor, ROLE.notRegularStuden, ROLE.regularProfesor, ROLE.regularStudent])
+    role: zod.enum([ROLE.notRegularProfesor, ROLE.notRegularStuden, ROLE.regularProfesor, ROLE.regularStudent, ROLE.admin])
 
 });
 
