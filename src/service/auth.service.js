@@ -1,6 +1,8 @@
 import userModel from "../model/user.model.js";
 import { generateToken } from "../utils/jwt.tokens.js";
 import {ROLE} from "../utils/enums.js";
+import { Types } from "mongoose";
+
 
 const loginService = async (username, password) => {
     const user = await userModel.findOne({username: username});
@@ -116,7 +118,7 @@ const editUserService =async (body)=>{
     
     const username = await userModel.findOne({
         username: body.username,
-        _id: { $ne: body.userID }
+        _id:{$ne:new Types.ObjectId(body.userID)}
     });
 
     if(username){
@@ -128,7 +130,7 @@ const editUserService =async (body)=>{
 
     const userEmail = await userModel.findOne({
         email: body.email,
-        _id:{$ne:body.userID}
+        _id:{$ne:new Types.ObjectId(body.userID)}
     });
     if(userEmail){
         return {

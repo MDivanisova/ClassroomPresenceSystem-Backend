@@ -1,5 +1,5 @@
 import classroomModel from "../model/classroom.model.js"
-
+import { Types } from "mongoose";
 
 
 const creatClassroomService = async (roomNumber, floor, campus, faculty, type)=>{
@@ -59,7 +59,7 @@ const editClassroomService = async(classroomID,roomNumber,floor,campus,faculty,t
     }
 
     const isDuplicat = await classroomModel.findOne({
-        roomNumber: roomNumber, floor: floor, campus: campus, faculty: faculty, type: type, _id:{$ne: body.classroomID}
+        roomNumber: roomNumber, floor: floor, campus: campus, faculty: faculty, type: type, _id:{$ne:new Types.ObjectId(classroomID)}
     });
         if(isDuplicat){
             return {
