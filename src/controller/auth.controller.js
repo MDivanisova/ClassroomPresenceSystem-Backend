@@ -22,7 +22,7 @@ const register = async (req, res) => {
   const valRes = registerSchema.parse(body);
   const result = await registerService(body);
   
-  return res.status(200).json({"msg":"User registered"})
+  return res.status(result.statusCode).json({"msg":result.msg})
 }
 
 const getAllUsers = async (req, res) => {
