@@ -6,7 +6,7 @@ const loginService = async (username, password) => {
     const user = await userModel.findOne({username: username});
     if(!user){
         return {
-                "msg":{"msg":"Wrong credentials"},
+                "msg":{"msg":"User dose not exist"},
                 "statusCode": 401
         }
     }
@@ -28,7 +28,8 @@ const loginService = async (username, password) => {
         return {
             "msg":{
                 "token":token,
-                "userId": jwtUser._id
+                "userId": jwtUser._id,
+                "role": jwtUser.role
             },
             "statusCode": 200
         } 
@@ -43,7 +44,22 @@ const loginService = async (username, password) => {
 
 
 const registerService = async (body) => {
-    
+    const user = await userModel.findOne({username: body.username});
+    if(user){
+        return {
+            "statusCode":409,
+            "msg":"Username is already in use"
+        };
+    }
+
+    const user = await userModel.findOne({email: body.email});
+    if(user){
+        return {
+            "statusCode":409,
+            "msg":"Email is already in use"
+        };
+    }
+
     const newUser = userModel({
         index: body.index,
         name: body.name,
@@ -55,7 +71,10 @@ const registerService = async (body) => {
     });
     await newUser.save();
 
-    return true;
+    return {
+        "statusCode":200,
+        "msg":"succesfully"
+    };
 
 
 }
