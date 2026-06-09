@@ -114,6 +114,7 @@ const editUserService =async (body)=>{
         }
     }
     
+    const username = await userModel.findOne({username: body.username});
     if(username){
         return {
             "statusCode":409,
