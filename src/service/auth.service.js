@@ -114,7 +114,11 @@ const editUserService =async (body)=>{
         }
     }
     
-    const username = await userModel.findOne({username: body.username});
+    const username = await userModel.findOne({
+        username: body.username,
+        _id: { $ne: body.userID }
+    });
+
     if(username){
         return {
             "statusCode":409,
@@ -122,7 +126,10 @@ const editUserService =async (body)=>{
         };
     }
 
-    const userEmail = await userModel.findOne({email: body.email});
+    const userEmail = await userModel.findOne({
+        email: body.email,
+        _id:{$ne:body.userID}
+    });
     if(userEmail){
         return {
             "statusCode":409,
