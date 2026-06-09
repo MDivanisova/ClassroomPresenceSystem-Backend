@@ -113,6 +113,21 @@ const editUserService =async (body)=>{
             "msg":"User dose not exist"
         }
     }
+    
+    if(username){
+        return {
+            "statusCode":409,
+            "msg":"Username is already in use"
+        };
+    }
+
+    const userEmail = await userModel.findOne({email: body.email});
+    if(userEmail){
+        return {
+            "statusCode":409,
+            "msg":"Email is already in use"
+        };
+    }
 
     user.index = body.index,
     user.name = body.name,

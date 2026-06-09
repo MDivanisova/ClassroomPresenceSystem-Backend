@@ -58,6 +58,14 @@ const editClassroomService = async(classroomID,roomNumber,floor,campus,faculty,t
         }
     }
 
+    const isDuplicat = await classroomModel.findOne({roomNumber: roomNumber, floor: floor, campus: campus, faculty: faculty, type: type});
+        if(isDuplicat){
+            return {
+                "statusCode":409,
+                "msg":"Classroom already exist"
+            };
+        }
+
     classroom.campus = campus;
     classroom.roomNumber = roomNumber;
     classroom.floor = floor;
