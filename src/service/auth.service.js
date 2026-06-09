@@ -44,16 +44,16 @@ const loginService = async (username, password) => {
 
 
 const registerService = async (body) => {
-    const user = await userModel.findOne({username: body.username});
-    if(user){
+    const username = await userModel.findOne({username: body.username});
+    if(username){
         return {
             "statusCode":409,
             "msg":"Username is already in use"
         };
     }
 
-    const user = await userModel.findOne({email: body.email});
-    if(user){
+    const userEmail = await userModel.findOne({email: body.email});
+    if(userEmail){
         return {
             "statusCode":409,
             "msg":"Email is already in use"
