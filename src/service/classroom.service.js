@@ -3,6 +3,14 @@ import classroomModel from "../model/classroom.model.js"
 
 
 const creatClassroomService = async (roomNumber, floor, campus, faculty, type)=>{
+    const isDuplicat = await classroomModel.findOne({roomNumber: roomNumber, floor: floor, campus: campus, faculty: faculty, type: type});
+        if(isDuplicat){
+            return {
+                "statusCode":409,
+                "msg":"Classroom already exist"
+            };
+        }
+
     const classroom = new classroomModel({
         roomNumber: roomNumber,
         floor: floor,
